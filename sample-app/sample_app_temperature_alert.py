@@ -52,7 +52,15 @@ def on_iot_hub_message_event(partition_context, event):
         #command_to_device_message_properties['onePropertyNameIShouldGiveAProperName'] = 'youShouldChangeThis'
 
         aux_iot_hub_send_message_to_device(device_name=event_device_name, message_body=command_to_device_message_body, message_properties=command_to_device_message_properties)
+    else:
+        #MESSAGES TO DEVICES HAVE A BODY
+        command_to_device_message_body = "Desactivar"
+        #MESSAGES TO DEVICES HAVE A DICTIONARY OF PROPERTIES
+        command_to_device_message_properties={}
+        #command_to_device_message_properties['onePropertyNameIShouldGiveAProperName'] = 'youShouldChangeThis'
 
+        aux_iot_hub_send_message_to_device(device_name=event_device_name, message_body=command_to_device_message_body, message_properties=command_to_device_message_properties)
+    
 
 if __name__ == '__main__':
 
