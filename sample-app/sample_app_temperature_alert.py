@@ -35,8 +35,10 @@ def on_iot_hub_message_event(partition_context, event):
     #READ MESSAGE PROPERTIES
     #IF YOUR DEVICE DOES NOT SEND TEMPERATURE JUST CHANGE THE FOLLOWING LINES
     event_temperature=event_body['temperature']
+    event_humidity=event_body['humidity']
     event_device_name=event_body['device_name']
     print("Temperature {} from device {} is lower than {}".format(event_temperature, event_device_name, MAXIMUM_TEMPERATURE))
+    print("Humidity {} from device {} is lower than {}".format(event_humidity, event_device_name, MAXIMUM_HUMIDITY))
 
     if event_temperature > MAXIMUM_TEMPERATURE:
 
@@ -44,10 +46,10 @@ def on_iot_hub_message_event(partition_context, event):
         print("Sending alert to device {}".format(event_device_name))
 
         #MESSAGES TO DEVICES HAVE A BODY
-        command_to_device_message_body = "ONE ACTION CODE YOU SHOULD IMPLEMENT"
+        command_to_device_message_body = "Activar"
         #MESSAGES TO DEVICES HAVE A DICTIONARY OF PROPERTIES
         command_to_device_message_properties={}
-        command_to_device_message_properties['onePropertyNameIShouldGiveAProperName'] = 'youShouldChangeThis'
+        #command_to_device_message_properties['onePropertyNameIShouldGiveAProperName'] = 'youShouldChangeThis'
 
         aux_iot_hub_send_message_to_device(device_name=event_device_name, message_body=command_to_device_message_body, message_properties=command_to_device_message_properties)
 
@@ -60,7 +62,8 @@ if __name__ == '__main__':
     #CONNECT TO THE IOT HUB BUILT IT ENDPOINT
     aux_iot_hub_built_in_event_hub_consumer_client = EventHubConsumerClient.from_connection_string(conn_str=AUX_EVENT_HUB_NAMESPACE_CONNECTION_STRING, consumer_group='app', eventhub_name=AUX_EVENTHUB_NAME)
 
-    MAXIMUM_TEMPERATURE=38
+    MAXIMUM_TEMPERATURE=33
+    MAXIMUM_HUMIDITY=27
 
     try:
         with aux_iot_hub_built_in_event_hub_consumer_client:
